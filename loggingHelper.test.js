@@ -34,4 +34,17 @@ test('Outputs the correct prefix', () => {
   expect(lh.prefix()).toBe('namespace: ')
 })
 
+test('Handles supplied defaults', () => {
+  const defaults = {
+    TRACE: true,
+    DEBUG: true,
+    INFO: true,
+    WARN: true,
+    ERROR: true,
+  }
+
+  const lh = new LoggingHelper({ namespace: 'namespace', windowRef, defaults})
+
+  expect(windowRef.__LOGGING.namespace).toMatchObject(defaults)
+})
 
