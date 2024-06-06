@@ -19,7 +19,7 @@ Once initialized you have access to boolean methods for different log levels:
 // simple
 const logger = new LoggingHelper({ namespace: 'MyModule' });
 
-// with all the config options
+// with all the configuration options
 const logger = new LoggingHelper({
   namespace: 'MyModule',
   defaults: {DEBUG: true},
@@ -27,7 +27,8 @@ const logger = new LoggingHelper({
   windowRef: window, 
 });
 ```
-See [#configuration-options]
+
+The confiugration options are explained [below](#configuration-options).
 
 ## Within your code
 
