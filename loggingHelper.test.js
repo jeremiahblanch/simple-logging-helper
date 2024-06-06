@@ -48,3 +48,10 @@ test('Handles supplied defaults', () => {
   expect(windowRef.__LOGGING.namespace).toMatchObject(defaults)
 })
 
+test('shouldLogDebug handles toggling of DEBUG', () => {
+  const lh = new LoggingHelper({ namespace: 'namespace', windowRef})
+
+  expect(lh.shouldLogDebug()).toBeFalsy();
+  windowRef.__LOGGING.namespace.DEBUG = true;
+  expect(lh.shouldLogDebug()).toBeTruthy();
+})
