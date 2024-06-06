@@ -1,5 +1,5 @@
 {
-  "name": "logging-helper",
+  "name": "simple-logging-helper",
   "version": "1.0.0",
   "description": "a helper tool for logging Javascript in a Browser",
   "main": "loggingHelper.js",
