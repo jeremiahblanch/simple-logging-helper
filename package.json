@@ -1,7 +1,7 @@
 {
   "name": "simple-logging-helper",
   "version": "1.0.0",
-  "description": "a helper tool for logging Javascript in a Browser",
+  "description": "a helper tool for logging javascript in a browser",
   "source": "src/index.js",
   "main": "dist/main.js",
   "module": "dist/module.js",
