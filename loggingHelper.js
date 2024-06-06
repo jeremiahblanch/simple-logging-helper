@@ -39,7 +39,7 @@ class LoggingHelper {
   }
 
   prefix() {
-    return `${this.namespace}:`
+    return `${this.namespace}: `
   }
 
   shouldLogTrace() {
