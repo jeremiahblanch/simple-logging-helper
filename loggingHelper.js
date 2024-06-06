@@ -64,7 +64,7 @@ class LoggingHelper {
 
   __shouldLog(level) {
     try {
-      return this.windowRef[REF][this.namespace][level]
+      return this.windowRef[this.keyOnWindow][this.namespace][level]
     }
     catch (e) {
       return;
