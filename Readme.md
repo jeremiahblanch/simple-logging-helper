@@ -8,21 +8,53 @@ That means you can still see what line called the log, and can easily navigate t
 
 # Use like this
 
-```
+```javascript
 // initialise
-this.logger = new LoggingHelper('MyApp');
+const logger = new LoggingHelper({
+  namespace: 'MyApp',
+    /*
+    string, mandatory
 
-// when you want to log
+    Use a different namespace for each usage in your app, eg per class / function / file
+    */
 
-// level === DEBUG
-this.logger.shouldLogDebug() && console.log(this.logger.prefix(), `Message to log`);
+  windowRef: '__LOGGING', 
+    /* 
+    string, optional, defaults to '__LOGGING'
 
-// level === TRACE
-this.logger.shouldLogTrace() && console.log(this.logger.prefix(), `Message to log`);
+    The object name on the Window that is used to toggle logging on and off
+    */
+
+  defaults: {DEBUG: false, TRACE: false},
+    /*
+    object, optional, defaults to {DEBUG: false, TRACE: false}
+
+    Whether logging is turned on by default for different log levels.
+    
+    The keys must match the allowed log levels.
+    
+    You can use this to have different logging configured for different environments,
+    
+    eg defaults: process.env === 'DEV' ? {DEBUG: true, TRACE: true} : undefined
+    */
+);
+
+// Within your code, wherever you want to log
+
+// write this if the logging is of level === DEBUG,
+logger.shouldLogDebug() && console.log(logger.prefix(), `Message to log`);
+
+// write this if the logging is of level === TRACE,
+logger.shouldLogTrace() && console.log(logger.prefix(), `Message to log`);
+
+// logger.prefix() just returns the `${namespace}: `
 
 ```
 
-
-You can turn logging on and off on the window like
+When your app is running you can turn logging on and off on the window like
 ```
-window__LOGGING.MyApp.TRACE = true;
+window[windowRef][namespace].TRACE = true;
+
+// eg
+window.__LOGGING.MyApp.TRACE = true;
+```

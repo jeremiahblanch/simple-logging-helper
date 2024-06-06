@@ -1,35 +1,31 @@
-const REF = '__LOGGING'
-
 const levels = {
-    DEBUG: 'DEBUG',
-    TRACE: 'TRACE',
+  DEBUG: 'DEBUG',
+  TRACE: 'TRACE',
 }
 
-const defaultSettings = {
-  DEV: {
-    [levels.DEBUG]: true,
-    [levels.TRACE]: false
-  },
-  PROD: {
-    [levels.DEBUG]: false,
-    [levels.TRACE]: false
-  }
+const defaultsAllFalse = {
+  [levels.DEBUG]: false,
+  [levels.TRACE]: false,
 }
 
 class LoggingHelper {
-  handle = ''
+  namespace
+  windowRef
 
-  constructor(handle) {
-    window[REF] = window[REF] || {}
+  constructor({
+    namespace,
+    windowRef = '__LOGGING',
+    defaults = defaultsAllFalse
+  }) {
+    this.namespace = namespace;
+    this.windowRef = windowRef;
 
-    this.handle = handle;
-
-    window[REF][this.handle] = {...defaultSettings.DEV}; // TODO turn on always for DEV, off for Prod
-
+    window[this.windowRef] = window[this.windowRef] || {}
+    window[this.windowRef][this.namespace] = {...defaults};
   }
 
   prefix() {
-    return `${this.handle}:`
+    return `${this.namespace}:`
   }
 
   shouldLogDebug() {
@@ -42,7 +38,7 @@ class LoggingHelper {
 
   __shouldLog(level) {
     try {
-      return window[REF][this.handle][level]
+      return window[REF][this.namespace][level]
     }
     catch (e) {
       return;
