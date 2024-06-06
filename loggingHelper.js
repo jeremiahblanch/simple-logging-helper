@@ -16,19 +16,26 @@ levelList.forEach(lvl => {
 
 
 class LoggingHelper {
+  keyOnWindow
   namespace
   windowRef
 
   constructor({
+    defaults = defaultsAllFalse,
     namespace,
-    windowRef = '__LOGGING',
-    defaults = defaultsAllFalse
+    keyOnWindow = '__LOGGING',
+    windowRef = window,
   }) {
+    if (!namespace) {
+      throw new Error ('No namespace supplied')
+    }
+
     this.namespace = namespace;
+    this.keyOnWindow = keyOnWindow;
     this.windowRef = windowRef;
 
-    window[this.windowRef] = window[this.windowRef] || {}
-    window[this.windowRef][this.namespace] = {...defaults};
+    this.windowRef[this.keyOnWindow] = this.windowRef[this.keyOnWindow] || {}
+    this.windowRef[this.keyOnWindow][this.namespace] = {...defaults};
   }
 
   prefix() {
@@ -57,7 +64,7 @@ class LoggingHelper {
 
   __shouldLog(level) {
     try {
-      return window[REF][this.namespace][level]
+      return this.windowRef[REF][this.namespace][level]
     }
     catch (e) {
       return;
