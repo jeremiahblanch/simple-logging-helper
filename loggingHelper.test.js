@@ -2,6 +2,9 @@ import LoggingHelper from './loggingHelper';
 
 const windowRef = {}
 
+// =======================================
+// Test creation
+
 test('Creates properly with defaults', () => {
   const lh = new LoggingHelper({ namespace: 'namespace', windowRef})
 
@@ -14,7 +17,6 @@ test('Creates properly with defaults', () => {
   })
 })
 
-
 test('Handles a different keyOnWindow', () => {
   const keyOnWindow = 'DIFFERENT'
   const lh = new LoggingHelper({ namespace: 'namespace', windowRef, keyOnWindow })
@@ -26,12 +28,6 @@ test('Handles a different keyOnWindow', () => {
     WARN: false,
     ERROR: false,
   })
-})
-
-test('Outputs the correct prefix', () => {
-  const lh = new LoggingHelper({ namespace: 'namespace', windowRef})
-
-  expect(lh.prefix()).toBe('namespace: ')
 })
 
 test('Handles supplied defaults', () => {
@@ -48,13 +44,17 @@ test('Handles supplied defaults', () => {
   expect(windowRef.__LOGGING.namespace).toMatchObject(defaults)
 })
 
-test('shouldLogDebug handles toggling of DEBUG', () => {
+// =======================================
+// Test Prefix
+test('Outputs the correct prefix', () => {
   const lh = new LoggingHelper({ namespace: 'namespace', windowRef})
 
-  expect(lh.shouldLogDebug()).toBeFalsy();
-  windowRef.__LOGGING.namespace.DEBUG = true;
-  expect(lh.shouldLogDebug()).toBeTruthy();
+  expect(lh.prefix()).toBe('namespace: ')
 })
+
+
+// =======================================
+// TEST shouldLogX methods
 
 test('shouldLogTrace handles toggling of TRACE', () => {
   const lh = new LoggingHelper({ namespace: 'namespace', windowRef})
@@ -62,6 +62,14 @@ test('shouldLogTrace handles toggling of TRACE', () => {
   expect(lh.shouldLogTrace()).toBeFalsy();
   windowRef.__LOGGING.namespace.TRACE = true;
   expect(lh.shouldLogTrace()).toBeTruthy();
+})
+
+test('shouldLogDebug handles toggling of DEBUG', () => {
+  const lh = new LoggingHelper({ namespace: 'namespace', windowRef})
+
+  expect(lh.shouldLogDebug()).toBeFalsy();
+  windowRef.__LOGGING.namespace.DEBUG = true;
+  expect(lh.shouldLogDebug()).toBeTruthy();
 })
 
 test('shouldLogInfo handles toggling of INFO', () => {
