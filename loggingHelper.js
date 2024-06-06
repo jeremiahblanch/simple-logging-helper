@@ -1,12 +1,19 @@
-const levels = {
-  DEBUG: 'DEBUG',
-  TRACE: 'TRACE',
-}
+const levelList = [ 
+  'TRACE',
+  'DEBUG',
+  'INFO',
+  'WARN',
+  'ERROR',
+]
 
-const defaultsAllFalse = {
-  [levels.DEBUG]: false,
-  [levels.TRACE]: false,
-}
+const levels = {}
+const defaultsAllFalse = {}
+
+levelList.forEach(lvl => {
+  levels[lvl] = lvl
+  defaultsAllFalse[lvl] = false
+})
+
 
 class LoggingHelper {
   namespace
@@ -28,12 +35,24 @@ class LoggingHelper {
     return `${this.namespace}:`
   }
 
+  shouldLogTrace() {
+    return this.__shouldLog(levels.TRACE)
+  }
+
   shouldLogDebug() {
     return this.__shouldLog(levels.DEBUG)
   }
 
-  shouldLogTrace() {
-    return this.__shouldLog(levels.TRACE)
+  shouldLogInfo() {
+    return this.__shouldLog(levels.INFO)
+  }
+
+  shouldLogWarn() {
+    return this.__shouldLog(levels.WARN)
+  }
+
+  shouldLogError() {
+    return this.__shouldLog(levels.ERROR)
   }
 
   __shouldLog(level) {
