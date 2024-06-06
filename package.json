@@ -1,0 +1,15 @@
+{
+  "name": "logging-helper",
+  "version": "1.0.0",
+  "description": "a helper tool for logging Javascript in a Browser",
+  "main": "loggingHelper.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "log",
+    "logging"
+  ],
+  "author": "Jeremiah Blanch",
+  "license": "ISC"
+}
