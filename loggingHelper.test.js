@@ -2,7 +2,7 @@ import LoggingHelper from './loggingHelper';
 
 const windowRef = {}
 
-test('It creates properly with defaults', () => {
+test('Creates properly with defaults', () => {
   const lh = new LoggingHelper({ namespace: 'namespace', windowRef})
 
   expect(windowRef.__LOGGING.namespace).toMatchObject({
@@ -15,7 +15,7 @@ test('It creates properly with defaults', () => {
 })
 
 
-test('It handles a different keyOnWindow', () => {
+test('Handles a different keyOnWindow', () => {
   const keyOnWindow = 'DIFFERENT'
   const lh = new LoggingHelper({ namespace: 'namespace', windowRef, keyOnWindow })
 
@@ -28,7 +28,7 @@ test('It handles a different keyOnWindow', () => {
   })
 })
 
-test('It handles outputs the correct prefix', () => {
+test('Outputs the correct prefix', () => {
   const lh = new LoggingHelper({ namespace: 'namespace', windowRef})
 
   expect(lh.prefix()).toBe('namespace: ')
