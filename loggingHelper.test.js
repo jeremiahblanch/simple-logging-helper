@@ -1,4 +1,4 @@
-import LoggingHelper from './loggingHelper';
+import LoggingHelper from './';
 
 const windowRef = {}
 
