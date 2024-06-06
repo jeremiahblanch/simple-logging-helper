@@ -1,4 +1,8 @@
-# Why
+# Simple Logging Helper
+
+[Find on NPM](https://www.npmjs.com/package/simple-logging-helper)
+
+# Why?
 Because other logging tools do the `console.log` themselves, and therefore the browser dev tools prints a line number for the *line within the logging tool* and not the line in your code!
 
 This tool doesn't do the `console.log` for you, it just creates a mechanism to control switching the logging on and off. That means you can still see what line called the log, and can easily navigate to it in the dev tools and set a breakpoint, etc.
@@ -12,15 +16,27 @@ Once initialized you have access to boolean methods for different log levels:
 |Warn  | `WARN`  | `shouldLogWarn`  |
 |Error | `ERROR` | `shouldLogError` |
 
+You put these in front of the `console.log()` statements in your code, like `logger.shouldLogTrace() && console.log('trace')` and then you can switch (for example) trace logs on and off with `__LOGGING.MyModule.TRACE = true`. (See below)
+
+
 # Usage
+
+## Installation
+```
+npm install simple-logging-helper
+```
+
+
 
 ## Initialize
 ```javascript
-// simple
-const logger = new LoggingHelper({ namespace: 'MyModule' });
+import SimpleLoggingHelper from 'simple-logging-helper';
 
-// with all the configuration options
-const logger = new LoggingHelper({
+// simple setup
+const logger = new SimpleLoggingHelper({ namespace: 'MyModule' });
+
+// OR, complex setup with all the configuration options
+const logger = new SimpleLoggingHelper({
   namespace: 'MyModule',
   defaults: {DEBUG: true},
   keyOnWindow: '__LOGGING', 
@@ -30,8 +46,8 @@ const logger = new LoggingHelper({
 
 The confiugration options are explained [below](#configuration-options).
 
-## Within your code
 
+## Within your code
 After initializing `logger`, you can use it  like this
 ```javascript
 logger.shouldLogTrace() && console.log(logger.prefix(), `About to do something tiny`);
@@ -69,6 +85,7 @@ window.__LOGGING.ADifferentModule.DEBUG = true
 
 
 # Configuration Options
+Specify these options when you call `new SimpleLoggingHelper()`
 - `namespace` (string, mandatory) - Use a different namespace for each usage in your app, eg per class / function / file
 
 - `defaults` (object, optional, defaults to false for everything) - Whether logging is turned on by default for different log levels. The keys must match the allowed log levels. You can use this to have different logging configured for different environments, eg `defaults: process.env === 'DEV' ? {DEBUG: true, TRACE: true} : undefined`
