@@ -3,7 +3,7 @@
   "version": "1.0.3",
   "description": "a helper tool for logging javascript in a browser",
   "source": "src/index.js",
-  "main": "dist/main",
+  "main": "dist/main.js",
   "type": "module",
   "scripts": {
     "build": "parcel build",
