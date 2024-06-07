@@ -10,7 +10,6 @@
     "build-publish": "npm run build && npm run publish-to-npm",
     "publish-to-npm": "npm publish --access public",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
-
   },
   "jest": {
     "transform": {}
