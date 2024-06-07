@@ -34,18 +34,23 @@ npm install simple-logging-helper
 ```javascript
 import simpleLoggingHelper from 'simple-logging-helper';
 
-// initialize, do this once in your app
+// simple
 simpleLoggingHelper.init()
   
-// OR: define your own keys for where the toggles are stored
-simpleLoggingHelper.init('__My_APP_LOGGING', someOtherObjectThatIsNotWindow)
+// with options
+simpleLoggingHelper.init({
+  enableAllByDefault: true,
+  keyOnWindow:'__My_APP_LOGGING',
+  windowRef: someOtherObjectThatIsNotWindow,
+})
 ```
 
-`init(keyOnWindow, windowRef)` takes 2 optional arguments:
-- `keyOnWindow` (string, optional, defaults to '__LOGGING') - The object name on the window that is used to toggle logging on and off
-- `windowRef` (object, optional, defaults to `window`) - If you want to bind to an object other than window, specify it here.
+`init(opts)` takes an optional argument with these keys:
+- `keyOnWindow` (string, defaults to '__LOGGING') - The object name on the window that is used to toggle logging on and off
+- `windowRef` (object, defaults to `window`) - If you want to bind to an object other than window, specify it here.
+- `enableAllByDefault` (boolean) - If set to true then all toggles will be set to true by default, unless overwritten when specified for a namespace.
 
-If you want to sepcify a different `windowRef` but use the default `keyOnWindow` pass undefined first, like `simpleLoggingHelper.init(undefined, someOtherObjectThatIsNotWindow)`
+(If you want to specify a different `windowRef` but use the default `keyOnWindow` pass undefined first, like `simpleLoggingHelper.init(undefined, someOtherObjectThatIsNotWindow)`)
 
 ## Within each module
 

@@ -1,7 +1,8 @@
 import simpleLoggingHelper from '../src';
 
-const windowRef = {}
-simpleLoggingHelper.init('__', windowRef)
+simpleLoggingHelper.init({
+  keyOnWindow: '__',
+})
 
 const {
   prefix: logPrefix,
@@ -19,34 +20,34 @@ test('prefix accessible via object spread and renamed', () => {
 test('shouldLogTrace accessible via object spread', () => {
   expect(shouldLogTrace()).toBeFalsy();
   
-  windowRef.__.namespace.TRACE = true;
+  window.__.namespace.TRACE = true;
   expect(shouldLogTrace()).toBeTruthy();
 })
 
 test('shouldLogDebug accessible via object spread', () => {
   expect(shouldLogDebug()).toBeFalsy();
   
-  windowRef.__.namespace.DEBUG = true;
+  window.__.namespace.DEBUG = true;
   expect(shouldLogDebug()).toBeTruthy();
 })
 
 test('shouldLogInfo accessible via object spread', () => {
   expect(shouldLogInfo()).toBeFalsy();
   
-  windowRef.__.namespace.INFO = true;
+  window.__.namespace.INFO = true;
   expect(shouldLogInfo()).toBeTruthy();
 })
 
 test('shouldLogWarn accessible via object spread', () => {
   expect(shouldLogWarn()).toBeFalsy();
   
-  windowRef.__.namespace.WARN = true;
+  window.__.namespace.WARN = true;
   expect(shouldLogWarn()).toBeTruthy();
 })
 
 test('shouldLogError accessible via object spread', () => {
   expect(shouldLogError()).toBeFalsy();
   
-  windowRef.__.namespace.ERROR = true;
+  window.__.namespace.ERROR = true;
   expect(shouldLogError()).toBeTruthy();
 })

@@ -8,30 +8,34 @@ const levelList = [
 
 const levels = {}
 const defaultsAllFalse = {}
+const defaultsAllTrue = {}
 
 levelList.forEach(lvl => {
   levels[lvl] = lvl
   defaultsAllFalse[lvl] = false
+  defaultsAllTrue[lvl] = true
 })
 
 
 class SimpleLoggingHelper {
+  enableAllByDefault
   keyOnWindow
-  namespace
   windowRef
 
   constructor() {}
 
-  init(
-    keyOnWindow = '__LOGGING',
-    windowRef = window,
-  ) {
-    this.keyOnWindow = keyOnWindow;
-    this.windowRef = windowRef;
+  init(opts) {
+    this.keyOnWindow = opts?.keyOnWindow || '__LOGGING';
+    this.windowRef = opts?.windowRef || window;
+    this.enableAllByDefault = opts?.enableAllByDefault;
+
     this.windowRef[this.keyOnWindow] = {}
   }
 
-  createForNamespace(namespace, defaults = defaultsAllFalse) {
+  createForNamespace(
+    namespace, 
+    defaults = this.enableAllByDefault ? defaultsAllTrue : defaultsAllFalse
+  ) {
     if (!this.keyOnWindow) {
       throw new Error ('SimpleLoggingHelper: createForNamespace() called before init()')
     }
