@@ -1,9 +1,10 @@
-import LoggingHelper from '../src';
+import simpleLoggingHelper from '../src';
 
 const windowRef = {}
 
 test('Outputs the correct prefix', () => {
-  const lh = new LoggingHelper({ namespace: 'namespace', windowRef})
+  simpleLoggingHelper.init(undefined, windowRef)
+  const l = simpleLoggingHelper.createForNamespace('namespace')
 
-  expect(lh.prefix()).toBe('namespace: ')
+  expect(l.prefix()).toBe('namespace: ')
 })

@@ -15,62 +15,81 @@ levelList.forEach(lvl => {
 })
 
 
-class LoggingHelper {
+class SimpleLoggingHelper {
   keyOnWindow
   namespace
   windowRef
 
-  constructor({
-    defaults = defaultsAllFalse,
-    namespace,
+  constructor() {}
+
+  init(
     keyOnWindow = '__LOGGING',
     windowRef = window,
-  }) {
-    if (!namespace) {
-      throw new Error ('No namespace supplied')
-    }
-
-    this.namespace = namespace;
+  ) {
     this.keyOnWindow = keyOnWindow;
     this.windowRef = windowRef;
-
-    this.windowRef[this.keyOnWindow] = this.windowRef[this.keyOnWindow] || {}
-    this.windowRef[this.keyOnWindow][this.namespace] = {...defaults};
+    this.windowRef[this.keyOnWindow] = {}
   }
 
-  prefix() {
-    return `${this.namespace}: `
-  }
+  createForNamespace(namespace, defaults = defaultsAllFalse) {
+    if (!this.keyOnWindow) {
+      throw new Error ('SimpleLoggingHelper: createForNamespace() called before init()')
+    }
+    if (!namespace) {
+      throw new Error ('SimpleLoggingHelper: No namespace supplied')
+    }
 
-  shouldLogTrace() {
-    return this.__shouldLog(levels.TRACE)
-  }
+    this.windowRef[this.keyOnWindow][namespace] = {...defaults};
+    
+    const {
+      prefix,
+      shouldLogTrace,
+      shouldLogDebug,
+      shouldLogInfo,
+      shouldLogWarn,
+      shouldLogError,
+    } = new LoggerForNamespace(namespace, this);
 
-  shouldLogDebug() {
-    return this.__shouldLog(levels.DEBUG)
+    return {
+      prefix,
+      shouldLogTrace,
+      shouldLogDebug,
+      shouldLogInfo,
+      shouldLogWarn,
+      shouldLogError,
+    }
   }
-
-  shouldLogInfo() {
-    return this.__shouldLog(levels.INFO)
-  }
-
-  shouldLogWarn() {
-    return this.__shouldLog(levels.WARN)
-  }
-
-  shouldLogError() {
-    return this.__shouldLog(levels.ERROR)
-  }
-
-  __shouldLog(level) {
+  
+  __shouldLog(namespace, level) {
     try {
-      return this.windowRef[this.keyOnWindow][this.namespace][level]
+      return this.windowRef[this.keyOnWindow][namespace][level]
     }
     catch (e) {
       return;
     }
   }
-  
 }
 
-export default LoggingHelper;
+class LoggerForNamespace {
+  namespace
+  parent
+
+  constructor(
+    namespace,
+    parent,
+  ) {
+    this.namespace = namespace;
+    this.parent = parent;
+  }
+
+  prefix = () => `${this.namespace}: `
+  shouldLogTrace = () => this.parent.__shouldLog(this.namespace, levels.TRACE)
+  shouldLogDebug = () => this.parent.__shouldLog(this.namespace, levels.DEBUG)
+  shouldLogInfo = () => this.parent.__shouldLog(this.namespace, levels.INFO)
+  shouldLogWarn = () => this.parent.__shouldLog(this.namespace, levels.WARN)
+  shouldLogError = () => this.parent.__shouldLog(this.namespace, levels.ERROR)
+}
+
+const singleton = new SimpleLoggingHelper();
+
+export default singleton;

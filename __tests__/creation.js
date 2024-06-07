@@ -1,9 +1,10 @@
-import LoggingHelper from '../src';
+import simpleLoggingHelper from '../src';
 
 const windowRef = {}
 
 test('Creates properly with defaults', () => {
-  const lh = new LoggingHelper({ namespace: 'namespace', windowRef})
+  simpleLoggingHelper.init(undefined, windowRef)
+  simpleLoggingHelper.createForNamespace('namespace')
 
   expect(windowRef.__LOGGING.namespace).toMatchObject({
     TRACE: false,
@@ -16,7 +17,8 @@ test('Creates properly with defaults', () => {
 
 test('Handles a different keyOnWindow', () => {
   const keyOnWindow = 'DIFFERENT'
-  const lh = new LoggingHelper({ namespace: 'namespace', windowRef, keyOnWindow })
+  simpleLoggingHelper.init(keyOnWindow, windowRef)
+  simpleLoggingHelper.createForNamespace('namespace')
 
   expect(windowRef[keyOnWindow].namespace).toMatchObject({
     TRACE: false,
@@ -27,6 +29,7 @@ test('Handles a different keyOnWindow', () => {
   })
 })
 
+
 test('Handles supplied defaults', () => {
   const defaults = {
     TRACE: true,
@@ -36,7 +39,9 @@ test('Handles supplied defaults', () => {
     ERROR: true,
   }
 
-  const lh = new LoggingHelper({ namespace: 'namespace', windowRef, defaults})
+  simpleLoggingHelper.init(undefined, windowRef)
+  simpleLoggingHelper.createForNamespace('namespace', defaults)
 
   expect(windowRef.__LOGGING.namespace).toMatchObject(defaults)
 })
+

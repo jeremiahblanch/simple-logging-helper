@@ -1,43 +1,35 @@
-import LoggingHelper from '../src';
+import simpleLoggingHelper from '../src';
 
 const windowRef = {}
+simpleLoggingHelper.init(undefined, windowRef)
+const l = simpleLoggingHelper.createForNamespace('namespace')
 
 test('shouldLogTrace handles toggling of TRACE', () => {
-  const lh = new LoggingHelper({ namespace: 'namespace', windowRef})
-
-  expect(lh.shouldLogTrace()).toBeFalsy();
+  expect(l.shouldLogTrace()).toBeFalsy();
   windowRef.__LOGGING.namespace.TRACE = true;
-  expect(lh.shouldLogTrace()).toBeTruthy();
+  expect(l.shouldLogTrace()).toBeTruthy();
 })
 
 test('shouldLogDebug handles toggling of DEBUG', () => {
-  const lh = new LoggingHelper({ namespace: 'namespace', windowRef})
-
-  expect(lh.shouldLogDebug()).toBeFalsy();
+  expect(l.shouldLogDebug()).toBeFalsy();
   windowRef.__LOGGING.namespace.DEBUG = true;
-  expect(lh.shouldLogDebug()).toBeTruthy();
+  expect(l.shouldLogDebug()).toBeTruthy();
 })
 
 test('shouldLogInfo handles toggling of INFO', () => {
-  const lh = new LoggingHelper({ namespace: 'namespace', windowRef})
-
-  expect(lh.shouldLogInfo()).toBeFalsy();
+  expect(l.shouldLogInfo()).toBeFalsy();
   windowRef.__LOGGING.namespace.INFO = true;
-  expect(lh.shouldLogInfo()).toBeTruthy();
+  expect(l.shouldLogInfo()).toBeTruthy();
 })
 
 test('shouldLogWarn handles toggling of WARN', () => {
-  const lh = new LoggingHelper({ namespace: 'namespace', windowRef})
-
-  expect(lh.shouldLogWarn()).toBeFalsy();
+  expect(l.shouldLogWarn()).toBeFalsy();
   windowRef.__LOGGING.namespace.WARN = true;
-  expect(lh.shouldLogWarn()).toBeTruthy();
+  expect(l.shouldLogWarn()).toBeTruthy();
 })
 
 test('shouldLogError handles toggling of ERROR', () => {
-  const lh = new LoggingHelper({ namespace: 'namespace', windowRef})
-
-  expect(lh.shouldLogError()).toBeFalsy();
+  expect(l.shouldLogError()).toBeFalsy();
   windowRef.__LOGGING.namespace.ERROR = true;
-  expect(lh.shouldLogError()).toBeTruthy();
+  expect(l.shouldLogError()).toBeTruthy();
 })
