@@ -1,12 +1,19 @@
-import simpleLoggingHelper from '../src';
+import { WindowRef } from '../src/types';
+import SimpleLoggingHelper from '../src/lib/slh';
 
-const windowRef = {}
+const windowRef: WindowRef = {}
+
+let slh: SimpleLoggingHelper
+
+beforeEach(() => {
+  slh = new SimpleLoggingHelper();
+})
 
 test('Creates properly with no arguments', () => {
-  simpleLoggingHelper.init()
-  simpleLoggingHelper.createForNamespace('namespace')
+  slh.init()
+  slh.createForNamespace('namespace')
 
-  expect(window.__LOGGING.namespace).toMatchObject({
+  expect((window as WindowRef).__LOGGING.namespace).toMatchObject({
     TRACE: false,
     DEBUG: false,
     INFO: false,
@@ -17,8 +24,8 @@ test('Creates properly with no arguments', () => {
 
 
 test('Handles a different windowRef', () => {
-  simpleLoggingHelper.init({ windowRef })
-  simpleLoggingHelper.createForNamespace('namespace')
+  slh.init({ windowRef })
+  slh.createForNamespace('namespace')
 
   expect(windowRef.__LOGGING.namespace).toMatchObject({
     TRACE: false,
@@ -31,10 +38,10 @@ test('Handles a different windowRef', () => {
 
 test('Handles a different keyOnWindow', () => {
   const keyOnWindow = 'DIFFERENT'
-  simpleLoggingHelper.init({ keyOnWindow })
-  simpleLoggingHelper.createForNamespace('namespace')
+  slh.init({ keyOnWindow })
+  slh.createForNamespace('namespace')
 
-  expect(window[keyOnWindow].namespace).toMatchObject({
+  expect((window as WindowRef)[keyOnWindow].namespace).toMatchObject({
     TRACE: false,
     DEBUG: false,
     INFO: false,
@@ -44,10 +51,10 @@ test('Handles a different keyOnWindow', () => {
 })
 
 test('Handles enableAllByDefault', () => {
-  simpleLoggingHelper.init({ enableAllByDefault: true })
-  simpleLoggingHelper.createForNamespace('namespace')
+  slh.init({ enableAllByDefault: true })
+  slh.createForNamespace('namespace')
 
-  expect(window.__LOGGING.namespace).toMatchObject({
+  expect((window as WindowRef).__LOGGING.namespace).toMatchObject({
     TRACE: true,
     DEBUG: true,
     INFO: true,
@@ -65,10 +72,10 @@ test('Handles supplied defaults', () => {
     ERROR: true,
   }
 
-  simpleLoggingHelper.init()
-  simpleLoggingHelper.createForNamespace('namespace', defaults)
+  slh.init()
+  slh.createForNamespace('namespace', defaults)
 
-  expect(window.__LOGGING.namespace).toMatchObject(defaults)
+  expect((window as WindowRef).__LOGGING.namespace).toMatchObject(defaults)
 })
 
 test('Handles supplied defaults overriding enableAllByDefault', () => {
@@ -80,9 +87,9 @@ test('Handles supplied defaults overriding enableAllByDefault', () => {
     ERROR: true,
   }
 
-  simpleLoggingHelper.init({ enableAllByDefault: true })
-  simpleLoggingHelper.createForNamespace('namespace', defaults)
+  slh.init({ enableAllByDefault: true })
+  slh.createForNamespace('namespace', defaults)
 
-  expect(window.__LOGGING.namespace).toMatchObject(defaults)
+  expect((window as WindowRef).__LOGGING.namespace).toMatchObject(defaults)
 })
 

@@ -1,6 +1,9 @@
-import simpleLoggingHelper from '../src';
+import { WindowRef } from '../src/types';
+import SimpleLoggingHelper from '../src/lib/slh';
 
-simpleLoggingHelper.init({
+const slh = new SimpleLoggingHelper();
+
+slh.init({
   keyOnWindow: '__',
 })
 
@@ -11,7 +14,7 @@ const {
   shouldLogInfo,
   shouldLogWarn,
   shouldLogError,
-} = simpleLoggingHelper.createForNamespace('namespace')
+} = slh.createForNamespace('namespace')
 
 test('prefix accessible via object spread and renamed', () => {
   expect(logPrefix()).toBe('namespace: ');
@@ -20,34 +23,34 @@ test('prefix accessible via object spread and renamed', () => {
 test('shouldLogTrace accessible via object spread', () => {
   expect(shouldLogTrace()).toBeFalsy();
   
-  window.__.namespace.TRACE = true;
+  (window as WindowRef).__.namespace.TRACE = true;
   expect(shouldLogTrace()).toBeTruthy();
 })
 
 test('shouldLogDebug accessible via object spread', () => {
   expect(shouldLogDebug()).toBeFalsy();
   
-  window.__.namespace.DEBUG = true;
+  (window as WindowRef).__.namespace.DEBUG = true;
   expect(shouldLogDebug()).toBeTruthy();
 })
 
 test('shouldLogInfo accessible via object spread', () => {
   expect(shouldLogInfo()).toBeFalsy();
   
-  window.__.namespace.INFO = true;
+  (window as WindowRef).__.namespace.INFO = true;
   expect(shouldLogInfo()).toBeTruthy();
 })
 
 test('shouldLogWarn accessible via object spread', () => {
   expect(shouldLogWarn()).toBeFalsy();
   
-  window.__.namespace.WARN = true;
+  (window as WindowRef).__.namespace.WARN = true;
   expect(shouldLogWarn()).toBeTruthy();
 })
 
 test('shouldLogError accessible via object spread', () => {
   expect(shouldLogError()).toBeFalsy();
   
-  window.__.namespace.ERROR = true;
+  (window as WindowRef).__.namespace.ERROR = true;
   expect(shouldLogError()).toBeTruthy();
 })
