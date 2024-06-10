@@ -23,6 +23,16 @@ test('Creates properly with no arguments', () => {
 })
 
 
+test('Ensure init runs once only', () => {
+  expect(slh.alreadyInitialized).toBeFalsy()
+
+  slh.init({ windowRef })
+  
+  expect(slh.alreadyInitialized).toBeTruthy()
+
+  slh.init({ windowRef })
+})
+
 test('Handles a different windowRef', () => {
   slh.init({ windowRef })
   slh.createForNamespace('namespace')
