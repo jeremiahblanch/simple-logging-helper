@@ -8,20 +8,34 @@ levelList.forEach(lvl => {
   defaultsAllTrue[lvl] = true
 })
 
+let myWindow: WindowRef;
+
+try {
+  myWindow = window // browser
+}
+catch (err) {
+  myWindow = global // node
+}
 
 class SimpleLoggingHelper {
-  enableAllByDefault: boolean = false
+  alreadyInitialized = false
+  enableAllByDefault = false
   keyOnWindow: string = '__LOGGING'
-  windowRef: WindowRef = window
+  windowRef: WindowRef = myWindow
 
   init(opts?: {
     enableAllByDefault?: boolean
     keyOnWindow?: string
     windowRef?: object
   }) {
-    this.keyOnWindow = opts?.keyOnWindow || this.keyOnWindow;
-    this.windowRef = opts?.windowRef || this.windowRef;
-    this.enableAllByDefault = opts?.enableAllByDefault || this.enableAllByDefault;
+    if (this.alreadyInitialized) {
+      return
+    }
+    this.alreadyInitialized = true
+
+    this.keyOnWindow = opts?.keyOnWindow || this.keyOnWindow
+    this.windowRef = opts?.windowRef || this.windowRef
+    this.enableAllByDefault = opts?.enableAllByDefault || this.enableAllByDefault
 
     this.windowRef[this.keyOnWindow] = {}
   }
@@ -39,9 +53,6 @@ class SimpleLoggingHelper {
 
     this.windowRef[this.keyOnWindow][namespace] = {...defaults};
 
-    // TODO - remove, dev only
-    console.log(this.windowRef[this.keyOnWindow])
-    
     const {
       prefix,
       shouldLogTrace,
