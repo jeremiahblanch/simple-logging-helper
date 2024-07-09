@@ -14,13 +14,21 @@ try {
   myWindow = window // browser
 }
 catch (err) {
-  myWindow = {} // node
+  try {
+    myWindow = global // node
+  }
+  catch (err) {
+    myWindow = {} // environemtns withotu global, eg Nextjs
+  }
 }
+
+const fallbackKeyOnWindow = '__LOGGING'
+const fallbackNamespace = '__namespace'
 
 class SimpleLoggingHelper {
   alreadyInitialized = false
   enableAllByDefault = false
-  keyOnWindow: string = '__LOGGING'
+  keyOnWindow: string = fallbackKeyOnWindow
   windowRef: WindowRef = myWindow
 
   init(opts?: {
@@ -41,16 +49,17 @@ class SimpleLoggingHelper {
   }
 
   createForNamespace(
-    namespace: Namespace, 
+    namespace: Namespace = fallbackNamespace, 
     defaults = this.enableAllByDefault ? defaultsAllTrue : defaultsAllFalse
   ) {
     if (!this.keyOnWindow) {
       console.error('SimpleLoggingHelper: createForNamespace() called before init()')
-      return
+      // set default so this function can execute without crashing
+      this.keyOnWindow = fallbackKeyOnWindow
+
     }
-    if (!namespace) {
-      console.error('SimpleLoggingHelper: No namespace supplied')
-      return
+    if (namespace === fallbackNamespace) {
+      console.error(`SimpleLoggingHelper: No namespace supplied, using ${fallbackNamespace}`)
     }
 
     this.windowRef[this.keyOnWindow][namespace] = {...defaults};
