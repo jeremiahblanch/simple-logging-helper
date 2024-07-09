@@ -14,7 +14,7 @@ try {
   myWindow = window // browser
 }
 catch (err) {
-  myWindow = global // node
+  myWindow = {} // node
 }
 
 class SimpleLoggingHelper {
