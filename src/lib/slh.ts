@@ -45,10 +45,12 @@ class SimpleLoggingHelper {
     defaults = this.enableAllByDefault ? defaultsAllTrue : defaultsAllFalse
   ) {
     if (!this.keyOnWindow) {
-      throw new Error ('SimpleLoggingHelper: createForNamespace() called before init()')
+      console.error('SimpleLoggingHelper: createForNamespace() called before init()')
+      return
     }
     if (!namespace) {
-      throw new Error ('SimpleLoggingHelper: No namespace supplied')
+      console.error('SimpleLoggingHelper: No namespace supplied')
+      return
     }
 
     this.windowRef[this.keyOnWindow][namespace] = {...defaults};
