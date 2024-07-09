@@ -22,6 +22,19 @@ test('Creates properly with no arguments', () => {
   })
 })
 
+test('Creates properly with defaults if init never called', () => {
+  expect(slh.alreadyInitialized).toBeFalsy()
+  slh.createForNamespace('namespace')
+  expect(slh.alreadyInitialized).toBeTruthy()
+  expect((window as WindowRef).__LOGGING.namespace).toMatchObject({
+    TRACE: false,
+    DEBUG: false,
+    INFO: false,
+    WARN: false,
+    ERROR: false,
+  })
+})
+
 
 test('Ensure init runs once only', () => {
   expect(slh.alreadyInitialized).toBeFalsy()
@@ -32,6 +45,8 @@ test('Ensure init runs once only', () => {
 
   slh.init({ windowRef })
 })
+
+
 
 test('Handles a different windowRef', () => {
   slh.init({ windowRef })
