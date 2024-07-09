@@ -1,6 +1,6 @@
 {
   "name": "simple-logging-helper",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "a helper tool for logging javascript in a browser",
   "source": "src/index.ts",
   "main": "dist/index.js",
