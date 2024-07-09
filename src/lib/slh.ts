@@ -26,7 +26,7 @@ const fallbackKeyOnWindow = '__LOGGING'
 const fallbackNamespace = '__namespace'
 
 class SimpleLoggingHelper {
-  alreadyInitialized = false
+  initialized = false
   enableAllByDefault = false
   keyOnWindow: string = fallbackKeyOnWindow
   windowRef: WindowRef = myWindow
@@ -36,10 +36,10 @@ class SimpleLoggingHelper {
     keyOnWindow?: string
     windowRef?: object
   }) {
-    if (this.alreadyInitialized) {
+    if (this.initialized) {
       return
     }
-    this.alreadyInitialized = true
+    this.initialized = true
 
     this.keyOnWindow = opts?.keyOnWindow || this.keyOnWindow
     this.windowRef = opts?.windowRef || this.windowRef
@@ -52,11 +52,9 @@ class SimpleLoggingHelper {
     namespace: Namespace = fallbackNamespace, 
     defaults = this.enableAllByDefault ? defaultsAllTrue : defaultsAllFalse
   ) {
-    if (!this.keyOnWindow) {
-      console.error('SimpleLoggingHelper: createForNamespace() called before init()')
-      // set default so this function can execute without crashing
-      this.keyOnWindow = fallbackKeyOnWindow
-
+    if (!this.initialized) {
+      console.error('SimpleLoggingHelper not initialized. Running init with defaults')
+      this.init()
     }
     if (namespace === fallbackNamespace) {
       console.error(`SimpleLoggingHelper: No namespace supplied, using ${fallbackNamespace}`)
